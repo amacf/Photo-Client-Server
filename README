@@ -1,0 +1,41 @@
+Andrew McAfee
+CS3516 Prog3: Photo Client
+
+The goal of this assignment is to send sets of digital photographs from multiple clients
+to a photograph gallery server. The two programs included are written in accordance to
+the specification provided by Professor Kinicki at WPI for CS3516 B-Term Program 3.
+
+To compile the programs, simply use the included Makefile with GNU make. This will
+compile on any of the CCC linux machines used for testing.
+
+To run the client, use the command line format: 
+	./client servermachine id num_photos
+where
+	-servermachine specifies the logical name for the server machine 
+		(e.g., cccWORK4.wpi.edu).
+ 	-id is a unique integer identifying this client.
+ 	-num_photos indicates the number of photos this client wants to upload to
+ 		the Photo Server.
+
+To run the server, simply use:
+	./server
+
+
+The following notes specify implementation and usage for this submission:
+	- The client will produce a log file named client_id.log, where id is passed
+		to the program upon startup as an argument
+	- The server will produce a log file for each client, named server_id.log,
+		where id is the id specified by the connected client
+	- The ID is sent as 1-byte to the server before any frames are sent
+	- Every frame sent by the client is preceded by a single byte encoding the
+		length (in bytes) of the frame that follows it.
+	- Sending the same photo over the server twice will overwrite and corrupt the
+		photo sent on the first send. This is necessary by limitation of design.
+	- Due to the contrived nature of this assignment, the transmission will take a
+		considerably long time. A 1Mb photo may take up to a few minutes. This
+		is due to the false errors that require frequent ACKS, as the
+		communication is significantly faster when disabling false errors.
+	- Photos to be sent MUST use the proper name format provided in specification
+	- Artificial errors are induced by NOTing this last byte of the frame
+	- Well known port is 6430, defined in prog3.h as WELLKNOWNPORT
+
